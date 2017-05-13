@@ -1,7 +1,7 @@
 #include "BasicExcel.hpp"
 #include "GameCore.hh"
 
-GameCore::GameCore() : graphics(new GraphicCore(){ }
+GameCore::GameCore() {}
 
 GameCore::~GameCore() {}
 
@@ -19,4 +19,7 @@ int GameCore::loadStory(std::string file) {
   return 0;
 }
 
-void GameCore::start() {}
+void GameCore::start() {
+  this->graphics.start();
+  this->graphics.loop();
+}

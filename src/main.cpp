@@ -2,6 +2,8 @@
 #include "GameCore.hh"
 
 int main(int argc, char *argv[]) {
-  GameCore gc();
+  GameCore gc;
+
+  gc.start();
   return (0);
 }

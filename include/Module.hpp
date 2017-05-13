@@ -6,7 +6,7 @@
 
 class Text {
  public:
-  Text(YExcel::BasicExcelWorksheet const* worksheet);
+  Text(YExcel::BasicExcelWorksheet const*);
 };
 
 class IModule {

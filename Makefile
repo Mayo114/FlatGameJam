@@ -15,7 +15,12 @@ SRC_PATH         = ./src
 
 INC              = ./include
 
-SRCS             = main.cpp
+SRCS             = main.cpp          \
+				   GraphicCore.cpp   \
+				   GameCore.cpp      \
+				   Timeline.cpp      \
+				   Modules/Text.cpp  \
+				   BasicExcel.cpp
 
 OBJS             = $(SRCS:.cpp=.o)
 LOBJS            = $(addprefix $(LOBJ_PATH)/,$(OBJS))
@@ -55,7 +60,7 @@ linux: $(LBIN)
 
 windows: $(WBIN)
 
-all: windows linux
+all: linux windows
 
 $(LBIN): $(LOBJS)
 	@$(MKDIR) $$(echo "$@" | sed 's/\/[^\/]*$$//')
@@ -65,11 +70,11 @@ $(WBIN): $(WOBJS)
 	@$(MKDIR) $$(echo "$@" | sed 's/\/[^\/]*$$//')
 	$(WINCXX) -o $(WBIN) $(WLDFLAGS) $(WOBJS)
 
-$(LOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(INC)
+$(LOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp
 	@$(MKDIR) $$(echo "$@" | sed 's/\/[^\/]*$$//')
 	$(CXX) -o $@ $(LCXXFLAGS) -c $<
 
-$(WOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(INC)
+$(WOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp
 	@$(MKDIR)
 	$(WINCXX) -o $@ $(WCXXFLAGS) -c $<
 

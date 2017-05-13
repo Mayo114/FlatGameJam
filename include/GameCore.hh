@@ -14,6 +14,7 @@ class GameCore {
   GameCore();
   ~GameCore();
   int loadStory(std::string);
+  void start();
 
  private:
   std::shared_ptr<IModule> head;

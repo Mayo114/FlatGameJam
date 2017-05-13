@@ -15,13 +15,18 @@ SRC_PATH         = ./src
 
 INC              = ./include
 
-SRCS             = main.cpp
+SRCS             = main.cpp          \
+				   GraphicCore.cpp   \
+				   GameCore.cpp      \
+				   Timeline.cpp      \
+				   Modules/Text.cpp  \
+				   BasicExcel.cpp
 
 OBJS             = $(SRCS:.cpp=.o)
 LOBJS            = $(addprefix $(LOBJ_PATH)/,$(OBJS))
 WOBJS            = $(addprefix $(WOBJ_PATH)/,$(OBJS))
 
-CXXFLAGS         = -O2 -pipe -march=native -I$(INC)
+CXXFLAGS         = -std=c++11 -O2 -pipe -march=native -I$(INC)
 LCXXFLAGS        = $(CXXFLAGS) -I$(INC)/linux
 WCXXFLAGS        = $(CXXFLAGS) -I$(INC)/windows
 
@@ -55,7 +60,7 @@ linux: $(LBIN)
 
 windows: $(WBIN)
 
-all: windows linux
+all: linux windows
 
 $(LBIN): $(LOBJS)
 	@$(MKDIR) $$(echo "$@" | sed 's/\/[^\/]*$$//')
@@ -65,11 +70,11 @@ $(WBIN): $(WOBJS)
 	@$(MKDIR) $$(echo "$@" | sed 's/\/[^\/]*$$//')
 	$(WINCXX) -o $(WBIN) $(WLDFLAGS) $(WOBJS)
 
-$(LOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(INC)
+$(LOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp
 	@$(MKDIR) $$(echo "$@" | sed 's/\/[^\/]*$$//')
 	$(CXX) -o $@ $(LCXXFLAGS) -c $<
 
-$(WOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(INC)
+$(WOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp
 	@$(MKDIR)
 	$(WINCXX) -o $@ $(WCXXFLAGS) -c $<
 
@@ -77,6 +82,7 @@ clean:
 	$(RM) obj
 
 fclean: clean
-	$(RM) bin
+	$(RM) $(LBIN)
+	$(RM) $(WBIN)
 
 .PHONY: all default linux windows clean fclean

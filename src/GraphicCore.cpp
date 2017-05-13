@@ -52,13 +52,14 @@ int GraphicCore::menu()
   // centrer une image sur un écran: ((res écran - res image) / 2)
   // ajouter image au bout de l'écran - 10: (res écran - (res image + 10))
   //  s_title.setTextureRect(sf::IntRect(250, 500, 500, 100));
+  s_background.setPosition(sf::Vector2f(((1920 - 1920) / 2), ((1080 - 864) /2 )));
   s_title.setPosition(sf::Vector2f(((1920 - 848) / 2), 10));
 
   //  s_play.setTextureRect(sf::IntRect(250, 200, 500, 100));
-  s_play.setPosition(sf::Vector2f(10, 200));
+  s_play.setPosition(sf::Vector2f(10, (1080 - (512 + 10))));
 
   //  s_exit.setTextureRect(sf::IntRect(250, 350, 500, 100));
-  s_exit.setPosition(sf::Vector2f((1920 - ((848 /2) + 10)), 350));
+  s_exit.setPosition(sf::Vector2f((1920 - (512 + 10)), (1080 - (512 + 10))));
 
   while (this->win->isOpen())
     {

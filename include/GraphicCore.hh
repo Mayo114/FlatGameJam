@@ -15,9 +15,10 @@ class GraphicCore {
   GraphicCore();
   ~GraphicCore();
 
-  void start();
-  void loop();
-  int menu();
+  void		start();
+  void		loop();
+  void		dispModule(Module<Text> const &);
+  int		menu();
 };
 
 #endif /* !GRAPHICCORE_HH */

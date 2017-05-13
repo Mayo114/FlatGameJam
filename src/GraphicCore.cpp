@@ -63,13 +63,26 @@ void GraphicCore::loop() {
   while (this->win->isOpen()) {
     sf::Event event;
     while (this->win->pollEvent(event)) {
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-	std::cout << "In the if :)" << std::endl;
-	exit(0);
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
+	  event.type == sf::Event::Closed) {
+	this->win->close();
+	return;
       }
-      if (event.type == sf::Event::Closed) this->win->close();
     }
     this->win->clear();
     this->win->display();
   }
+}
+
+//class Event
+//Reaction
+//Consequence
+
+void		GraphicCore::dispModule(Module<Text> const & m)
+{
+  // getEvent --> dispEvent if not null
+
+  // si action --> m.setReact(size_t);
+  //
+  // m.getCnsq() const;
 }

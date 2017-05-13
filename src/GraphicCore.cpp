@@ -71,6 +71,8 @@ int GraphicCore::menu()
 	      this->win->close();
 	      return -1;
 	    }
+	  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+	    return 1;
 	}
       this->win->clear(sf::Color(0, 0, 0));
       this->win->draw(s_background);
@@ -95,4 +97,9 @@ void GraphicCore::loop() {
     this->win->clear();
     this->win->display();
   }
+}
+
+void		GraphicCore::dispModule(Module<Text> const & module)
+{
+  
 }

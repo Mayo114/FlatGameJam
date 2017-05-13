@@ -39,7 +39,7 @@ ifeq ($(OS),Windows_NT)
 else
 	ifeq ($(shell uname), Linux)
 		FixPath  = $1
-		RM       = rm -f
+		RM       = rm -rf
 		MKDIR    = mkdir -p $$(echo "$@" | sed 's/\/[^\/]*$$//')
 		DEFAULT  = linux
 		WINCXX   = i686-w64-mingw32-c++
@@ -71,4 +71,10 @@ $(WOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(INC)
 	@$(MKDIR)
 	$(WINCXX) -o $@ $(CXXFLAGS) -c $<
 
-.PHONY: all default linux windows
+clean:
+	$(RM) obj
+
+fclean: clean
+	$(RM) bin
+
+.PHONY: all default linux windows clean fclean

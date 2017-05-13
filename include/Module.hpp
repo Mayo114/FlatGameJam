@@ -1,12 +1,11 @@
 #ifndef MODULE_HPP
 #define MODULE_HPP
 
+#include <tuple>
 #include <vector>
 #include "BasicExcel.hpp"
 
-struct Consequence {
-  std::map<std::string, int> variables;
-};
+using Consequence = std::map<std::string, int>;
 
 struct Results {
   std::string direction;
@@ -28,10 +27,10 @@ class Module : public IModule {
  public:
   Module(Type contained) : content(contained) {
     results.direction = "Next";
-    results.consequences.variables[std::string("toto")] = 18;
+    results.consequences[std::string("toto")] = 18;
   }
-  EventAction<typename Type::EventType> const& getEvent();
-  void setReact(size_t);
+  EventAction<typename Type::EventType> const& getEvent() {}
+  void setReact(size_t id) {}
   Results const& getConsequences() const { return results; }
 
  private:
@@ -49,10 +48,15 @@ class Module : public IModule {
 
 class Text {
  public:
-  struct EventType {
-    std::string event;
-  };
+  using Unit = std::tuple<std::string,
+			  std::vector<std::tuple<std::string, Consequence>>>;
+  using EventType = std::string;
+
   Text(YExcel::BasicExcelWorksheet const*);
+  Text& setDefault();
+
+ private:
+  std::vector<Unit> scenario;
 };
 
 #endif /* !MODULE_HPP */

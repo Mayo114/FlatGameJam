@@ -1,5 +1,5 @@
-#include "BasicExcel.hpp"
 #include "GameCore.hh"
+#include "BasicExcel.hpp"
 
 GameCore::GameCore() {}
 
@@ -21,5 +21,5 @@ int GameCore::loadStory(std::string file) {
 
 void GameCore::start() {
   this->graphics.start();
-  this->graphics.loop();
+  this->graphics.menu();
 }

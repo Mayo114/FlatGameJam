@@ -1,23 +1,23 @@
 #ifndef GRAPHICCORE_HH
-# define GRAPHICCORE_HH
-# include <iostream>
-# include <SFML/Graphics.hpp>
+#define GRAPHICCORE_HH
+#include <SFML/Graphics.hpp>
+#include <iostream>
 
-class		GraphicCore
-{
-  sf::RenderWindow	*win;
+class GraphicCore {
+  sf::RenderWindow *win;
   // menu
   // mini-map
   // perso
   // dialogue player
   // dialogue clans
   // triangle competences
-public:
+ public:
   GraphicCore();
   ~GraphicCore();
 
-  void		start();
-  void		loop();
+  void start();
+  void loop();
+  int menu();
 };
 
 #endif /* !GRAPHICCORE_HH */

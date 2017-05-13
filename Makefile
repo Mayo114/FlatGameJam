@@ -15,7 +15,8 @@ SRC_PATH         = ./src
 
 INC              = ./include
 
-SRCS             = main.cpp
+SRCS             = main.cpp		\
+		   GraphicCore.cpp
 
 OBJS             = $(SRCS:.cpp=.o)
 LOBJS            = $(addprefix $(LOBJ_PATH)/,$(OBJS))

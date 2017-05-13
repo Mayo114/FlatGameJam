@@ -2,6 +2,7 @@
 # define GRAPHICCORE_HH
 # include <iostream>
 # include <SFML/Graphics.hpp>
+# include <Module.hpp>
 
 class		GraphicCore
 {
@@ -18,6 +19,7 @@ public:
 
   void		start();
   void		loop();
+  void		dispModule(Module<Text> const &);
 };
 
 #endif /* !GRAPHICCORE_HH */

@@ -21,7 +21,9 @@ OBJS             = $(SRCS:.cpp=.o)
 LOBJS            = $(addprefix $(LOBJ_PATH)/,$(OBJS))
 WOBJS            = $(addprefix $(WOBJ_PATH)/,$(OBJS))
 
-CFLAGS           = -O2 -pipe -march=native -I$(INC)
+CXXFLAGS         = -O2 -pipe -march=native -I$(INC)
+LCXXFLAGS        = $(CXXFLAGS) -I$(INC)/linux
+WCXXFLAGS        = $(CXXFLAGS) -I$(INC)/windows
 
 LDFLAGS          = -lsfml-audio -lsfml-graphics -lsfml-system -lsfml-window
 LLDFLAGS         = $(LDFLAGS) -Llib/linux
@@ -65,11 +67,11 @@ $(WBIN): $(WOBJS)
 
 $(LOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(INC)
 	@$(MKDIR) $$(echo "$@" | sed 's/\/[^\/]*$$//')
-	$(CXX) -o $@ $(CXXFLAGS) -c $<
+	$(CXX) -o $@ $(LCXXFLAGS) -c $<
 
 $(WOBJ_PATH)/%.o: $(SRC_PATH)/%.cpp $(INC)
 	@$(MKDIR)
-	$(WINCXX) -o $@ $(CXXFLAGS) -c $<
+	$(WINCXX) -o $@ $(WCXXFLAGS) -c $<
 
 clean:
 	$(RM) obj

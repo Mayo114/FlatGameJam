@@ -77,6 +77,7 @@ clean:
 	$(RM) obj
 
 fclean: clean
-	$(RM) bin
+	$(RM) $(LBIN)
+	$(RM) $(WBIN)
 
 .PHONY: all default linux windows clean fclean

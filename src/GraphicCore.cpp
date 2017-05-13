@@ -86,12 +86,3 @@ void		GraphicCore::dispModule(Module<Text> const & m)
   //
   // m.getCnsq() const;
 }
-
-void		GraphicCore::dialogPlayer() const
-{
-}
-
-void		GraphicCore::dialogBoxes() const
-{
-
-}

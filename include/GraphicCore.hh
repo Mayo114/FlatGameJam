@@ -2,6 +2,7 @@
 #define GRAPHICCORE_HH
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Module.hpp"
 
 class GraphicCore {
   sf::RenderWindow *win;

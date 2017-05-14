@@ -184,8 +184,16 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>& module) {
   sf::Text text;
   ea = module.getEvent();
   text.setFont(font);
-  text.setString(ea.action);
-  text.setCharacterSize(40);
+  {
+    std::basic_string<sf::Uint32> utf32str;
+    sf::Utf8::toUtf32(ea.action.begin(), ea.action.end(),
+		      std::back_inserter(utf32str));
+    sf::String sfstr = utf32str;
+    sfstr = GraphicCore::wrapText(sfstr, this->mode.width / 12 * 7, font, 33,
+				  false);
+    text.setString(sfstr);
+  }
+  text.setCharacterSize(33);
   text.setColor(sf::Color::Black);
   text.setPosition(this->mode.height / 16 + 60,
 		   this->mode.height / 16 * 2 + 40);

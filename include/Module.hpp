@@ -14,6 +14,7 @@ struct Results {
 
 template <class EType>
 struct EventAction {
+  EType action;
   std::vector<EType> reactions;
 };
 

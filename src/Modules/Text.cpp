@@ -20,7 +20,7 @@ Text& Text::setDefault() {
   this->scenario
       ["Bonjour, comment allez-vous ? Je vous demande car je suis poli, "
        "voyez-vous. Si ça ne tenais qu'à moi je vous ignorerais. Mais en "
-       "suiant ce chamin, je ne pourrais jamais conquérir le monde !!!!!"] =
+       "suivant ce chemin, je ne pourrais jamais conquérir le monde...Dommage colatéraux voyez-vous!"] =
       v_1;
 
   Unit v_2 = {{"C'est comme ça.", {{"polite", -1}}},

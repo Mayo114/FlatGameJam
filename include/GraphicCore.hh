@@ -15,17 +15,19 @@ class GraphicCore {
   // dialogue player
   // dialogue clans
   // triangle competences
-  
-  sf::Sprite loadSprite(std::string) const;
+
+  sf::Texture *loadSprite(std::string) const;
 
  public:
+  using moduleOutput = std::tuple<std::string, Consequence> *;
+
   GraphicCore();
   ~GraphicCore();
 
   void start();
   void loop();
   int menu();
-  void dispModule(Module<Text> const &);
+  moduleOutput dispModule(Module<Text> const &);
 };
 
 #endif /* !GRAPHICCORE_HH */

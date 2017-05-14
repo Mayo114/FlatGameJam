@@ -2,10 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 
 GraphicCore::GraphicCore() : mode(1920, 1080, 32) {}
 
-GraphicCore::~GraphicCore() {}
+GraphicCore::~GraphicCore() {
+  if (this->win->isOpen()) this->win->close();
+  delete this->win;
+}
 
 void GraphicCore::start() {
   if (!mode.isValid()) {
@@ -73,7 +77,7 @@ int GraphicCore::menu() {
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
 	  event.type == sf::Event::Closed) {
 	this->win->close();
-	return -1;
+	exit(0);
       }
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) return 1;
     }
@@ -92,38 +96,63 @@ void GraphicCore::loop() {
     sf::Event event;
     while (this->win->pollEvent(event)) {
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-	std::cout << "In the if :)" << std::endl;
+	this->win->close();
+	return;
+      }
+      if (event.type == sf::Event::Closed) {
 	exit(0);
       }
-      if (event.type == sf::Event::Closed) this->win->close();
     }
     this->win->clear();
     this->win->display();
   }
 }
 
-sf::Sprite	GraphicCore::loadSprite(std::string file) const {
-  sf::Texture	t_image;
-  sf::Sprite	s_image;
+sf::Texture* GraphicCore::loadSprite(std::string file) const {
+  sf::Texture* t_image = new sf::Texture();
 
-  if (!t_image.loadFromFile("./assets/modules/" + file))
-  {
+  if (!t_image->loadFromFile("./assets/" + file)) {
     std::cerr << "Missing asset " << file << std::endl;
     this->win->close();
     exit(1);
   }
-  t_image.setSmooth(true);
-  s_image.setTexture(t_image);
-  return (s_image);
+  t_image->setSmooth(true);
+  return (t_image);
 }
 
-void		GraphicCore::dispModule(Module<Text> const & module) {
-  sf::Sprite	bgSprite = this->loadSprite("default.png");
+GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> const& module) {
+  std::unique_ptr<sf::Texture> bgTexture(
+      this->loadSprite("modules/default.png"));
+  std::unique_ptr<sf::Texture> figureTexture(
+      this->loadSprite("figures/viking.png"));
+  sf::Sprite bgSprite;
+  sf::Sprite figureSprite;
+
+  bgSprite.setTexture(*bgTexture);
+  bgSprite.setScale(this->mode.width / bgSprite.getLocalBounds().width,
+		    this->mode.height / bgSprite.getLocalBounds().height);
+  figureSprite.setTexture(*figureTexture);
+  figureSprite.setScale(
+      this->mode.height * 0.7 / figureSprite.getLocalBounds().height,
+      this->mode.height * 0.7 / figureSprite.getLocalBounds().height);
+  figureSprite.setPosition(sf::Vector2f(
+      ((this->mode.width - figureSprite.getLocalBounds().width - 100)),
+      this->mode.height - figureSprite.getLocalBounds().height));
 
   while (this->win->isOpen()) {
-    //if ((text = module.getEvent()) != NULL)
-      //dispEvent(text);
+    sf::Event event;
+
     this->win->draw(bgSprite);
+    this->win->draw(figureSprite);
     this->win->display();
+    while (this->win->pollEvent(event)) {
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+	return NULL;
+      }
+      if (event.type == sf::Event::Closed) {
+	this->win->close();
+	return (GraphicCore::moduleOutput)-1;
+      }
+    }
   }
 }

@@ -1,0 +1,14 @@
+Ansfrid ; parler ; Alors comme ça tu veux prendre la place de mon frère ?,Je vois que les nouvelles vont vite,,
+,Continuer ligne 5,,
+,,,
+,,,
+"Ansfrid ; parler ; Évidemment, un marchand se doit d'être au courant de tout ce qui se passe ! Tu penses pouvoir faire quelque chose contre mon frère ?","A cause de ton frère, tout ce que j'avais a disparu !!",,
+,Guerrier +1 ; Continuer ligne 9,,
+,,,
+,,,
+"Ansfrid ; parler ; Mon frère ne veut que la paix pour les jarls ! Mais il n'a que faire de pauvre bondi qui disparaissent ! Tuez le !",Je vais te montrer qu'il ne faut pas sous-estimer un bondr !,Je doute que tuer un bondr en plein jour soit une excellente idée,Je pense qu'on peut s'arranger
+,Guerrier + 1 ; Combat et victoire impossible.,Barde +1 ; continuer ligne 13,Marchand +1 ; Continuer ligne 13
+,,,
+,,,
+"Ansfrid ; parler ; Tss... Tu es plutôt intelligent pour un bondr ! Très bien, voyons ce que tu vas faire pour atteindre ton objectif",,,
+Continuer Module 2,,,

@@ -1,0 +1,14 @@
+Ragnar ; parler ;  Tiens voilà notre futur dirigeant et son amie !,Rejoins moi !,Souhaites tu venir dans mon alliance? Nous allons tout changer !,Prend ça et suis nous glisse une piece dans la main de ragnar 
+,Guerrier +1 ; continuer ligne 5,Barde +3 ; continuer ligne 9,Marchand +3 Guerrier +3 ; continuer ligne 13
+,,,
+,,,
+Ragnar ; parler ; Espèce de fou ! J'ai l'armée de mon coté tu ne gagneras jamais !,,,
+Combat contre l'armée et ragnar ; continuer module 5 en cas de victoire,,,
+,,,
+,,,
+Ragnar ; parler ; Je n'apprécie guère l'idée d'une alliance contre mon jarl ! Gardes !,,,
+Combat contre l'armée et ragnar ; continuer module 5 en cas de victoire,,,
+,,,
+,,,
+Ragnar ; parler ; J'aime vos manières ; vous serez sûrement un grand jarl avec notre armée,,,
+Continuer module 6,,,

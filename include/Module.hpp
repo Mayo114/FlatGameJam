@@ -1,9 +1,9 @@
 #ifndef MODULE_HPP
 #define MODULE_HPP
 
+#include <map>
 #include <tuple>
 #include <vector>
-#include "BasicExcel.hpp"
 
 using Consequence = std::map<std::string, int>;
 
@@ -14,10 +14,12 @@ struct Results {
 
 template <class EType>
 struct EventAction {
+  int line;
   std::string actor;
   std::string actorAsset;
   EType action;
   std::vector<EType> reactions;
+  std::vector<Consequence> cons;
 };
 
 class IModule {
@@ -34,7 +36,7 @@ class Module : public IModule {
       : content(contained), background(bg), id(0) {
     results.direction = "Next";
     results.consequences[std::string("toto")] = 18;
-    this->content->setEvents();
+    // this->content->setEvents();
   }
   Module(Type* contained) : Module(contained, "modules/default.png") {}
   ~Module() { delete this->content; }
@@ -62,15 +64,17 @@ class Text {
  public:
   using Unit = std::map<std::string, Consequence>;
   using EventType = std::string;
+  struct id {
+    int line;
+    std::string actor;
+    std::string content;
+  };
 
-  Text(YExcel::BasicExcelWorksheet*);
-  Text& setDefault();
-  Text& setEvents();
+  Text(std::string const&);
+  // Text& setDefault();
+  // Text& setEvents();
 
   std::vector<EventAction<EventType>> events;
-
- private:
-  std::map<EventType, Unit> scenario;
 };
 
 #endif /* !MODULE_HPP */

@@ -1,0 +1,10 @@
+Ida ; parler ; Saut mon ami ! La rumeur est-elle vraie ? Tu vas essayer de prendre le pouvoir ?,Je tuerai quiconque m'empêchera d'atteindre mon objectif !,Mon amie ! Vas-tu m'aider a changer le thing et à sauver les vikings ?,Souhaites tu me suivre ? Je peux te récompenser !
+,Guerrier +3 ; Combat contre Ida ; continuer module 3,Barde +2 ; continuer ligne 5,Marchand +2 ; continuer ligne 9
+,,,
+,,,
+Ida ; parler ; Bien sûr ! Je t'aiderai autant que je le peux !,,,
+Continuer module 4,,,
+,,,
+,,,
+"Ida ; parler ; Si tu le souhaites, je t'aiderai",,,
+continuer module 4,,,

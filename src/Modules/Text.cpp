@@ -1,16 +1,65 @@
+#include <iostream>
+#include <sstream>
 #include "Module.hpp"
+#include "csv.h"
 
-Text::Text(YExcel::BasicExcelWorksheet* ws) {
+Text::Text(std::string const& file) {
   size_t i = 0;
-  if (!ws) return;
+  size_t k;
+  int cons = 0;
+  std::string event;
+  std::vector<std::string> reactions;
+  EventAction<std::string> ea;
 
-  while (++i) {
-    YExcel::BasicExcelCell* cell = ws->Cell(i, 0);
+  if (!file.size()) return;
+  io::CSVReader<4, io::trim_chars<' ', '\t'>, io::double_quote_escape<',', '"'>>
+      csv(file);
+  std::string line;
 
-    if (cell->Type() != YExcel::BasicExcelCell::STRING) break;
+  while (reactions.resize(3),
+	 csv.read_row(event, reactions[0], reactions[1], reactions[2])) {
+    std::vector<std::string> segments;
+    std::string segment;
+
+    if (cons) {
+      for (int l = 0; l < cons; ++l) {
+	Consequence c;
+	std::stringstream ss(reactions[l]);
+	while (std::getline(ss, segment, ';')) {
+	  std::stringstream spaces(segment);
+	  std::string key;
+	  int value;
+
+	  spaces >> key;
+	  spaces >> value;
+	  c[key] = value;
+	}
+	ea.cons.push_back(c);
+      }
+      events.push_back(ea);
+    } else {
+      std::stringstream ss(event);
+      while (std::getline(ss, segment, ';')) {
+	segments.push_back(segment);
+      }
+      if (segments.size() < 3) continue;
+      ea.actor = segments[0];
+      ea.actorAsset = segments[0] + ".png";
+      ea.action = segments[2];
+
+      for (k = 0; k < 3 && segments[k].size(); ++k)
+	;
+      reactions.resize(k);
+      ea.reactions = reactions;
+      ea.line = i;
+
+      cons = k;
+    }
+    ++i;
   }
 }
 
+/*
 Text& Text::setDefault() {
   Unit v_1 = {{"Bien", {{"good", 10}, {"polite", 1}}},
 	      {"Mal", {{"good", -10}, {"polite", 1}}},
@@ -29,7 +78,9 @@ Text& Text::setDefault() {
 
   return *this;
 }
+*/
 
+/*
 Text& Text::setEvents() {
   for (auto i = this->scenario.cbegin(); i != this->scenario.cend(); ++i) {
     EventAction<EventType> ea;
@@ -44,4 +95,4 @@ Text& Text::setEvents() {
     this->events.push_back(ea);
   }
   return *this;
-}
+}*/

@@ -1,4 +1,5 @@
 #include "GraphicCore.hh"
+#include <unistd.h>
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
 #include <iostream>
@@ -198,37 +199,39 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>& module) {
   text.setPosition(this->mode.height / 16 + 60,
 		   this->mode.height / 16 * 2 + 40);
 
-/*  std::vector<sf::Text> choices;
-  int j = 0;
-  for (auto it = ea.reactions.cbegin(); it != ea.reactions.cend(); ++it)
-  {
-    choices[j].setFont(font);
+  /*  std::vector<sf::Text> choices;
+    int j = 0;
+    for (auto it = ea.reactions.cbegin(); it != ea.reactions.cend(); ++it)
     {
-      std::basic_string<sf::Uint32> utf32str;
-      sf::Utf8::toUtf32(it->begin(), it->end(),
-	  std::back_inserter(utf32str));
-      sf::String sfstr = utf32str;
-      sfstr = GraphicCore::wrapText(sfstr, this->mode.width / 12 * 7, font, 33,
-	  false);
-      choices[j].setString(sfstr);
-    }
-    choices[j].setCharacterSize(33);
-    choices[j].setColor(sf::Color::Black);
-    choices[j].setPosition(this->mode.height / 16 + 60,
-	this->mode.height / 16 * 2 + 40);
-    ++j;
-  }*/
+      choices[j].setFont(font);
+      {
+	std::basic_string<sf::Uint32> utf32str;
+	sf::Utf8::toUtf32(it->begin(), it->end(),
+	    std::back_inserter(utf32str));
+	sf::String sfstr = utf32str;
+	sfstr = GraphicCore::wrapText(sfstr, this->mode.width / 12 * 7, font,
+    33,
+	    false);
+	choices[j].setString(sfstr);
+      }
+      choices[j].setCharacterSize(33);
+      choices[j].setColor(sf::Color::Black);
+      choices[j].setPosition(this->mode.height / 16 + 60,
+	  this->mode.height / 16 * 2 + 40);
+      ++j;
+    }*/
 
   while (this->win->isOpen()) {
     sf::Event event;
 
+    usleep(30000);
     this->win->draw(bgSprite);
-    //this->win->draw(figureSprite);
-    //this->win->draw(dialogActor);
-    //this->win->draw(dialogPlayer);
-    //this->win->draw(text);
-    //for (auto it = choices.cbegin(); it != choices.cend(); ++it)
-      //this->win->draw(*it);
+    // this->win->draw(figureSprite);
+    // this->win->draw(dialogActor);
+    // this->win->draw(dialogPlayer);
+    // this->win->draw(text);
+    // for (auto it = choices.cbegin(); it != choices.cend(); ++it)
+    // this->win->draw(*it);
 
     while (this->win->pollEvent(event)) {
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {

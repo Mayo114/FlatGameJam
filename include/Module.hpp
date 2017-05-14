@@ -54,7 +54,7 @@ class Module : public IModule {
     std::cout << this->content->events.size() << std::endl;
     return this->content->events[id];
   }
-  void setReact(size_t id) { ++id; }
+  void setReact(size_t id) { ++this->id; }
   Results const& getConsequences() const { return results; }
 
   Type* content;

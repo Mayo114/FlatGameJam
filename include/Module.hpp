@@ -16,19 +16,12 @@ struct Results {
 template <class EType>
 struct EventAction {
   EventAction<EType> const& operator=(EventAction<EType> const& e) {
-    std::cout << "toto" << std::endl;
     this->line = e.line;
-    std::cout << "toto" << std::endl;
     this->actor = e.actor;
-    std::cout << "toto" << std::endl;
     this->actorAsset = e.actorAsset;
-    std::cout << "toto" << std::endl;
     this->action = e.action;
-    std::cout << "toto" << std::endl;
     this->reactions = e.reactions;
-    std::cout << "toto" << std::endl;
     this->cons = e.cons;
-    std::cout << "toto" << std::endl;
     return *this;
   }
   int line;

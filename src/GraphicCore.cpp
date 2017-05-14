@@ -199,26 +199,34 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>& module) {
 		   this->mode.height / 16 * 2 + 40);
 
   std::vector<sf::Text*> choices;
-  int selected = 0;
+  unsigned int selected = 0;
+  int nbLines = 0;
   int j = 0;
+
   for (auto it = ea.reactions.cbegin(); it != ea.reactions.cend(); ++it)
   {
     choices.push_back(new sf::Text());
+
+    choices[j]->setPosition(this->mode.height / 16 + 60, 
+        this->mode.height / 16 * 10 + 40 + nbLines * 45);
     choices[j]->setFont(font);
     {   
       std::basic_string<sf::Uint32> utf32str;
       sf::Utf8::toUtf32(it->begin(), it->end(),
           std::back_inserter(utf32str));
       sf::String sfstr = utf32str;
-      sfstr = GraphicCore::wrapText(sfstr, this->mode.width / 12 * 7, font, 33, 
+      sfstr = GraphicCore::wrapText(sfstr, this->mode.width / 2, font, 33, 
           false);
       choices[j]->setString(sfstr);
+	for (int i = 0; i < sfstr.getSize(); ++i) {
+	  if (sfstr[i] == '\n')
+	    ++nbLines;
+	}
     }   
     choices[j]->setCharacterSize(33);
     choices[j]->setColor(sf::Color::Black);
-    choices[j]->setPosition(this->mode.height / 16 + 60, 
-        this->mode.height / 16 * 10 + 40 + j * 45);
     ++j;
+    ++nbLines;
   }
 
   while (this->win->isOpen()) {
@@ -229,6 +237,14 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>& module) {
     this->win->draw(dialogActor);
     this->win->draw(dialogPlayer);
     this->win->draw(text);
+
+    sf::FloatRect backgroundRect = choices[selected]->getLocalBounds();
+    sf::RectangleShape backg(sf::Vector2f(backgroundRect.width + 20, backgroundRect.height + 20));
+    backg.setFillColor(sf::Color::Black);
+    for (int i = 0; i < j; ++i)
+      choices[i]->setColor(sf::Color::Black);
+    choices[selected]->setColor(sf::Color::White);
+    this->win->draw(backg, choices[selected]->getTransform());
     for (auto it = choices.cbegin(); it != choices.cend(); ++it)
       this->win->draw(**it);
     this->win->display();
@@ -237,6 +253,16 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>& module) {
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 	return NULL;
       }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+	if (selected == 0)
+	  selected = j - 1;
+	else
+	  --selected;
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+	++selected;
+      }
+      selected %= j;
       if (event.type == sf::Event::Closed) {
 	this->win->close();
 	return (GraphicCore::moduleOutput)-1;

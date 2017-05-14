@@ -13,7 +13,7 @@ Text::Text(YExcel::BasicExcelWorksheet* ws) {
 }
 
 Text& Text::setDefault() {
-  Unit v_1 = {{"Bien", {{"good", 10}, {"polite", 1}}},
+  Unit v_1 = {{"Bien, bien...Enfin maintenant que vous avez dit ça....j'avoue avoir bien envie de vous brosser!", {{"good", 10}, {"polite", 1}}},
 	      {"Mal", {{"good", -10}, {"polite", 1}}},
 	      {"...", {{"polite", -5}}}};
 

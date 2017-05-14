@@ -1,5 +1,4 @@
 #include "GraphicCore.hh"
-#include <unistd.h>
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
 #include <iostream>
@@ -230,7 +229,6 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
   while (this->win->isOpen()) {
     sf::Event event;
 
-    usleep(30000);
     this->win->draw(bgSprite);
     this->win->draw(figureSprite);
     this->win->draw(dialogActor);

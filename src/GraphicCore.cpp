@@ -137,12 +137,15 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> const& module) {
   bgSprite.setScale(this->mode.width / bgSprite.getLocalBounds().width,
 		    this->mode.height / bgSprite.getLocalBounds().height);
   figureSprite.setTexture(*figureTexture);
-  figureSprite.setScale(
-      this->mode.height * 0.7 / figureSprite.getLocalBounds().height,
-      this->mode.height * 0.7 / figureSprite.getLocalBounds().height);
-  figureSprite.setPosition(sf::Vector2f(
-      this->mode.width - figureSprite.getLocalBounds().width - 100,
-      this->mode.height - figureSprite.getLocalBounds().height));
+
+  {
+    float scale =
+	this->mode.width * 4 / 12 / figureSprite.getLocalBounds().height;
+    figureSprite.setScale(scale, scale);
+    figureSprite.setPosition(sf::Vector2f(
+	this->mode.width - figureSprite.getLocalBounds().width * scale - 30,
+	this->mode.height - figureSprite.getLocalBounds().height * scale));
+  }
 
   sf::RectangleShape dialogActor(sf::Vector2f(this->mode.width / 12 * 8, this->mode.height / 16 * 5));
   dialogActor.setPosition(sf::Vector2f(this->mode.height / 16, this->mode.height / 16 * 2));
@@ -158,6 +161,7 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> const& module) {
     this->win->draw(dialogActor);
     this->win->draw(dialogPlayer);
     this->win->display();
+
     while (this->win->pollEvent(event)) {
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 	return NULL;

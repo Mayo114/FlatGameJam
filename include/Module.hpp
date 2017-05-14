@@ -14,6 +14,7 @@ struct Results {
 
 template <class EType>
 struct EventAction {
+  EType action;
   std::vector<EType> reactions;
 };
 
@@ -27,19 +28,23 @@ class Module : public IModule {
  public:
   const std::string background;
 
-  Module(Type contained, std::string bg) : content(contained), background(bg) {
+  Module(Type contained, std::string bg)
+      : content(contained), background(bg), id(0) {
     results.direction = "Next";
     results.consequences[std::string("toto")] = 18;
   }
-  Module(Type contained) : Module(contained, "default") {}
-  EventAction<typename Type::EventType> const& getEvent() {}
-  void setReact(size_t id) {}
+  Module(Type contained) : Module(contained, "modules/default.png") {}
+  EventAction<typename Type::EventType> const& getEvent() {
+    return this->content.events[id];
+  }
+  void setReact(size_t id) { ++id; }
   Results const& getConsequences() const { return results; }
 
  private:
   Results results;
   Type content;
   Consequence cnsq;
+  size_t id;
   std::vector<std::string> childs;
 };
 
@@ -57,6 +62,9 @@ class Text {
 
   Text(YExcel::BasicExcelWorksheet const*);
   Text& setDefault();
+  Text& setEvents();
+
+  std::vector<EventAction<EventType>> events;
 
  private:
   std::vector<Unit> scenario;

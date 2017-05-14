@@ -32,3 +32,19 @@ Text& Text::setDefault() {
   this->scenario = {u, u_2};
   return *this;
 }
+
+Text& Text::setEvents() {
+  for (auto i = this->scenario.cbegin(); i != this->scenario.cend(); ++i) {
+    EventAction<EventType> ea;
+    std::vector<std::string> reactions;
+
+    for (auto j = std::get<1>(*i).cbegin(); i != this->scenario.cend(); ++i) {
+      reactions.push_back(std::get<0>(*j));
+    }
+
+    ea.action = std::get<0>(*i);
+    ea.reactions = reactions;
+    this->events.push_back(ea);
+  }
+  return *this;
+}

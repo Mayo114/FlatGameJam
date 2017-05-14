@@ -2709,7 +2709,7 @@ size_t Workbook::Read(const char* data) {
 
       //			case CODE::EXTSST:
       //				bytesRead +=
-      //extSST_.Read(data+bytesRead);
+      // extSST_.Read(data+bytesRead);
       //				break;
 
       default:
@@ -4575,7 +4575,7 @@ BasicExcelWorksheet* BasicExcel::AddWorksheet(int sheetIndex) {
   BasicExcelWorksheet* yesheet = 0;
   do {
     char sname[50];
-    sprintf(sname, "Sheet%lu", sheetNo++);
+    sprintf(sname, "Sheet%u", sheetNo++);
     yesheet = AddWorksheet(sname, sheetIndex);
   } while (!yesheet);
   return yesheet;
@@ -5417,9 +5417,9 @@ bool BasicExcelWorksheet::Rename(const wchar_t* to) {
 }
 
 ///< Print entire worksheet to an output stream, separating each column with the
-///defined delimiter and enclosing text using the defined textQualifier.
+/// defined delimiter and enclosing text using the defined textQualifier.
 ///< Leave out the textQualifier argument if do not wish to have any text
-///qualifiers.
+/// qualifiers.
 void BasicExcelWorksheet::Print(ostream& os, char delimiter,
 				char textQualifier) {
   for (size_t r = 0; r < maxRows_; ++r) {

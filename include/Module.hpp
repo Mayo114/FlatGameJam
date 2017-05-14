@@ -30,22 +30,23 @@ class Module : public IModule {
  public:
   const std::string background;
 
-  Module(Type contained, std::string bg)
+  Module(Type* contained, std::string bg)
       : content(contained), background(bg), id(0) {
     results.direction = "Next";
     results.consequences[std::string("toto")] = 18;
-    this->content.setEvents();
+    this->content->setEvents();
   }
-  Module(Type contained) : Module(contained, "modules/default.png") {}
+  Module(Type* contained) : Module(contained, "modules/default.png") {}
+  ~Module() { delete this->content; }
   EventAction<typename Type::EventType> const& getEvent() {
-    return this->content.events[id];
+    return this->content->events[id];
   }
   void setReact(size_t id) { ++id; }
   Results const& getConsequences() const { return results; }
 
  private:
   Results results;
-  Type content;
+  Type* content;
   Consequence cnsq;
   size_t id;
   std::vector<std::string> childs;
@@ -59,18 +60,17 @@ class Module : public IModule {
 
 class Text {
  public:
-  using Unit = std::tuple<std::string,
-			  std::vector<std::tuple<std::string, Consequence>>>;
+  using Unit = std::map<std::string, Consequence>;
   using EventType = std::string;
 
-  Text(YExcel::BasicExcelWorksheet const*);
+  Text(YExcel::BasicExcelWorksheet*);
   Text& setDefault();
   Text& setEvents();
 
   std::vector<EventAction<EventType>> events;
 
  private:
-  std::vector<Unit> scenario;
+  std::map<EventType, Unit> scenario;
 };
 
 #endif /* !MODULE_HPP */

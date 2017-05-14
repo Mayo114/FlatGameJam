@@ -34,7 +34,7 @@ class Module : public IModule {
       : content(contained), background(bg), id(0) {
     results.direction = "Next";
     results.consequences[std::string("toto")] = 18;
-    this->content.setEvents;
+    this->content.setEvents();
   }
   Module(Type contained) : Module(contained, "modules/default.png") {}
   EventAction<typename Type::EventType> const& getEvent() {

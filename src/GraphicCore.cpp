@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 
-GraphicCore::GraphicCore() : mode(1920, 1080, 32) {}
+GraphicCore::GraphicCore() : mode(1024, 768, 32) {}
 
 GraphicCore::~GraphicCore() {}
 
@@ -50,20 +50,20 @@ int GraphicCore::menu() {
   t_exit.setSmooth(false);
   s_exit.setTexture(t_exit);
 
-  // centrer une image sur un écran: ((res écran - res image) / 2)
-  // ajouter image au bout de l'écran - 10: (res écran - (res image + 10))
+  // centrer une image sur un ecran: ((res écran - res image) / 2)
+  // ajouter image au bout de l ecran - 10: (res écran - (res image + 10))
   //  s_title.setTextureRect(sf::IntRect(250, 500, 500, 100));
+  // setScale: redimentionne l image
   s_background.setScale(
-      this->mode.width / s_background.getLocalBounds().width,
-      this->mode.height / s_background.getLocalBounds().height);
-  s_title.setPosition(sf::Vector2f(((this->mode.width - 848) / 2), 10));
+	this->mode.width / s_background.getLocalBounds().width,
+	this->mode.height / s_background.getLocalBounds().height);
+  s_title.setPosition(sf::Vector2f(((this->mode.width - s_title.getLocalBounds().width) / 2), 120));
 
-  //  s_play.setTextureRect(sf::IntRect(250, 200, 500, 100));
-  s_play.setPosition(sf::Vector2f(10, (this->mode.height - (512 + 10))));
+  s_exit.setScale((0.3), (0.3));
+  s_exit.setPosition(sf::Vector2f(70, (this->mode.height - ((s_play.getLocalBounds().height * 0.3) + 70))));
 
-  // s_exit.setTextureRect(sf::IntRect(250, 350, 500, 100));
-  s_exit.setPosition(sf::Vector2f((this->mode.width - (512 + 10)),
-				  (this->mode.height - (512 + 10))));
+  s_play.setScale((0.3), (0.3));
+  s_play.setPosition(sf::Vector2f((this->mode.width - ((s_exit.getLocalBounds().width * 0.3) + 70)), (this->mode.height - ((s_exit.getLocalBounds().height * 0.3) + 70))));
 
   while (this->win->isOpen()) {
     sf::Event event;

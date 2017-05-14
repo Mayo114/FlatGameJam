@@ -22,7 +22,7 @@ class GraphicCore {
   void start();
   void loop();
   int menu();
-  moduleOutput dispModule(Module<Text> &);
+  moduleOutput dispModule(Module<Text> *);
 };
 
 #endif /* !GRAPHICCORE_HH */

@@ -143,7 +143,7 @@ sf::Texture* GraphicCore::loadSprite(std::string file) const {
   return (t_image);
 }
 
-GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>& module) {
+GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
   std::unique_ptr<sf::Texture> bgTexture(
       this->loadSprite("modules/default.png"));
   std::unique_ptr<sf::Texture> figureTexture(
@@ -182,7 +182,7 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>& module) {
 
   EventAction<Text::EventType> ea;
   sf::Text text;
-  ea = module.getEvent();
+  ea = module->getEvent();
   text.setFont(font);
   {
     std::basic_string<sf::Uint32> utf32str;

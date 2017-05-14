@@ -51,7 +51,7 @@ class Module : public IModule {
   Module(Type* contained) : Module(contained, "modules/default.png") {}
   ~Module() { delete this->content; }
   EventAction<typename Type::EventType> const& getEvent() {
-    std::cout << this->content->events.size() << std::endl;
+    if (this->id >= this->content->events.size()) throw(0);
     return this->content->events[id];
   }
   void setReact(size_t id) { ++this->id; }

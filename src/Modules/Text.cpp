@@ -1,13 +1,14 @@
 #include "Module.hpp"
 
 Text::Text(YExcel::BasicExcelWorksheet* ws) {
-  size_t i = 0;
   if (!ws) return;
 
-  while (++i) {
+  for (size_t i = 0; i < ws->GetTotalRows(); ++i) {
     YExcel::BasicExcelCell* cell = ws->Cell(i, 0);
 
-    if (cell->Type() != YExcel::BasicExcelCell::STRING) break;
+    if (cell->Type() == YExcel::BasicExcelCell::STRING) {
+      std::cout << cell->GetString() << std::endl;
+    }
   }
 }
 

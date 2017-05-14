@@ -10,6 +10,7 @@ int GameCore::loadStory(std::string file) {
   YExcel::BasicExcel excel;
 
   excel.Load(file.c_str());
+  std::cout << excel.GetTotalWorkSheets() << std::endl;
   for (size_t i = 0; i < excel.GetTotalWorkSheets(); ++i) {
     YExcel::BasicExcelWorksheet* ws = excel.GetWorksheet(i);
     std::shared_ptr<IModule> ptr(new Module<Text>(new Text(ws)));

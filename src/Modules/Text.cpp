@@ -11,10 +11,11 @@ Text::Text(std::string const& file) {
   std::vector<std::string> reactions;
   EventAction<std::string> ea;
 
-  if (!file.size()) return;
+  if (!file.size() || file[16] == '.') throw io::error::can_not_open_file();
   io::CSVReader<4, io::trim_chars<' ', '\t'>, io::double_quote_escape<',', '"'>>
       csv(file);
   std::string line;
+  this->f = file;
 
   while (reactions.resize(3),
 	 csv.read_row(event, reactions[0], reactions[1], reactions[2])) {

@@ -29,7 +29,6 @@ int GameCore::loadStory(std::string file) {
 
   getdir(file, files);
   std::cout << files.size() << std::endl;
-  this->head = storyLines[*files.cbegin()];
   for (auto i = files.cbegin(); i != files.cend(); ++i) {
     try {
       std::shared_ptr<IModule> ptr(new Module<Text>(new Text(file + "/" + *i)));
@@ -40,8 +39,12 @@ int GameCore::loadStory(std::string file) {
     } catch (io::error::too_few_columns const &e) {
       std::cerr << e.what() << std::endl;
       exit(0);
+    } catch (io::error::can_not_open_file const &e) {
     }
   }
+  this->head = storyLines["1.csv"];
+  std::cout << dynamic_cast<Module<Text> *>(&*this->head)->content->f
+	    << std::endl;
   return 0;
 }
 

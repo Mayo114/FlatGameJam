@@ -16,7 +16,7 @@ Text& Text::setDefault() {
 	      {"Mal", {{"good", -10}, {"polite", 1}}},
 	      {"...", {{"polite", -5}}}};
 
-  this->scenario["Bonjour, comment allez-vous ?"] = v_1;
+  this->scenario["Bonjour, comment allez-vous ? Je vous demande car je suis poli, voyez-vous. Si ça ne tenais qu'à moi je vous ignorerais. Mais en suiant ce chamin, je ne pourrais jamais conquérir le monde !!!!!"] = v_1;
 
   Unit v_2 = {{"C'est comme ça.", {{"polite", -1}}},
 	      {"Il s'est passe quelque chose ce matin", {{"polite", 1}}}};

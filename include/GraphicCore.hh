@@ -21,6 +21,7 @@ class GraphicCore {
   void loop();
   int menu();
   moduleOutput dispModule(Module<Text> &);
+  sf::String wrapText(sf::String, unsigned, const sf::Font &, unsigned, bool);
 };
 
 #endif /* !GRAPHICCORE_HH */

@@ -162,12 +162,14 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> & module) {
 
   EventAction<Text::EventType> ea;
   sf::Text text;
+  sf::String str;
   ea = module.getEvent();
   text.setFont(font);
   text.setString(ea.action);
   text.setCharacterSize(40);
   text.setColor(sf::Color::Black);
   text.setPosition(this->mode.height / 16 + 60, this->mode.height / 16 * 2 + 40);
+  str = this->wrapText(ea.action, this->mode.width / 12 * 8 - this->mode.height / 16, font, 40, false);
 
   while (this->win->isOpen()) {
     sf::Event event;
@@ -176,7 +178,7 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> & module) {
     this->win->draw(figureSprite);
     this->win->draw(dialogActor);
     this->win->draw(dialogPlayer);
-    this->win->draw(text);
+    this->win->draw(str);
     this->win->display();
 
     while (this->win->pollEvent(event)) {

@@ -9,13 +9,6 @@
 class GraphicCore {
   sf::RenderWindow *win;
   sf::VideoMode mode;
-  // menu
-  // mini-map
-  // perso
-  // dialogue player
-  // dialogue clans
-  // triangle competences
-
   sf::Texture *loadSprite(std::string) const;
 
  public:
@@ -27,7 +20,7 @@ class GraphicCore {
   void start();
   void loop();
   int menu();
-  moduleOutput dispModule(Module<Text> const &);
+  moduleOutput dispModule(Module<Text> &);
 };
 
 #endif /* !GRAPHICCORE_HH */

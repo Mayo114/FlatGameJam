@@ -11,7 +11,7 @@ int GameCore::loadStory(std::string file) {
   excel.Load(file.c_str());
   for (size_t i = 0; i < excel.GetTotalWorkSheets(); ++i) {
     YExcel::BasicExcelWorksheet* ws = excel.GetWorksheet(i);
-    std::shared_ptr<IModule> ptr(new Module<Text>(Text(ws)));
+    std::shared_ptr<IModule> ptr(new Module<Text>(new Text(ws)));
 
     if (!i) this->head = ptr;
     storyLines[ws->GetAnsiSheetName()] = ptr;
@@ -21,9 +21,9 @@ int GameCore::loadStory(std::string file) {
 
 void GameCore::start() {
   this->graphics.start();
-  if (this->graphics.menu() < 0)
-    return;
-  Text sample(NULL);
-  sample.setDefault();
-  this->graphics.dispModule(Module<Text>(sample));
+  if (this->graphics.menu() < 0) return;
+  Text* sample = new Text(NULL);
+  sample->setDefault();
+  Module<Text> sModule(sample);
+  this->graphics.dispModule(sModule);
 }

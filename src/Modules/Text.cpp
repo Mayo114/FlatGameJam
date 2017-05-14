@@ -1,35 +1,28 @@
 #include "Module.hpp"
 
-Text::Text(YExcel::BasicExcelWorksheet const* ws) {}
+Text::Text(YExcel::BasicExcelWorksheet* ws)
+    : scenario({{"toto", {{"oui", {{"toto", -1}}}, {"non", {{"toto", 1}}}}}}) {
+  size_t i = 0;
+
+  while (i) {
+    YExcel::BasicExcelCell* cell = ws->Cell(i, 0);
+
+    if (cell->Type() != YExcel::BasicExcelCell::STRING) break;
+  }
+}
 
 Text& Text::setDefault() {
-  std::tuple<std::string, Consequence> e1_1;
-  std::get<0>(e1_1) = "Bien";
-  std::get<1>(e1_1) = {{"good", 10}, {"polite", 1}};
+  Unit v_1 = {{"Bien", {{"good", 10}, {"polite", 1}}},
+	      {"Mal", {{"good", -10}, {"polite", 1}}},
+	      {"...", {{"polite", -5}}}};
 
-  std::tuple<std::string, Consequence> e2_1;
-  std::get<0>(e2_1) = "Mal";
-  std::get<1>(e2_1) = {{"good", -10}, {"polite", 1}};
+  this->scenario["Bonjour, comment allez-vous ?"] = v_1;
 
-  std::tuple<std::string, Consequence> e3_1;
-  std::get<0>(e3_1) = "...";
-  std::get<1>(e3_1) = {{"polite", -5}};
+  Unit v_2 = {{"C'est comme ça.", {{"polite", -1}}},
+	      {"Il s'est passe quelque chose ce matin", {{"polite", 1}}}};
 
-  std::vector<std::tuple<std::string, Consequence>> v_1 = {e1_1, e2_1, e3_1};
-  Unit u("Bonjour, comment allez-vous ?", v_1);
+  this->scenario["Pourquoi donc ?"] = v_2;
 
-  std::tuple<std::string, Consequence> e1_2;
-  std::get<0>(e1_2) = "C'est comme ça.";
-  std::get<1>(e1_2) = {{"polite", -1}};
-
-  std::tuple<std::string, Consequence> e2_2;
-  std::get<0>(e2_2) = "Il s'est passé quelque chose ce matin";
-  std::get<1>(e2_2) = {{"polite", 1}};
-
-  std::vector<std::tuple<std::string, Consequence>> v_2 = {e1_2, e2_2};
-  Unit u_2("Pourquoi donc ?", v_2);
-
-  this->scenario = {u, u_2};
   return *this;
 }
 
@@ -38,11 +31,11 @@ Text& Text::setEvents() {
     EventAction<EventType> ea;
     std::vector<std::string> reactions;
 
-    for (auto j = std::get<1>(*i).cbegin(); i != this->scenario.cend(); ++i) {
-      reactions.push_back(std::get<0>(*j));
+    for (auto j = i->second.cbegin(); j != i->second.cend(); ++j) {
+      reactions.push_back(j->first);
     }
 
-    ea.action = std::get<0>(*i);
+    ea.action = i->first;
     ea.reactions = reactions;
     this->events.push_back(ea);
   }

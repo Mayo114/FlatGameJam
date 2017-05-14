@@ -212,14 +212,16 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>& module) {
   }
 }
 
-sf::String GraphicCore::wrapText(sf::String string, unsigned width, const sf::Font &font, unsigned charicterSize, bool bold = false){
+sf::String GraphicCore::wrapText(sf::String string, unsigned width,
+				 const sf::Font& font, unsigned charicterSize,
+				 bool bold = false) {
   unsigned currentOffset = 0;
   bool firstWord = true;
   std::size_t wordBegining = 0;
 
   for (std::size_t pos(0); pos < string.getSize(); ++pos) {
     auto currentChar = string[pos];
-    if (currentChar == '\n'){
+    if (currentChar == '\n') {
       currentOffset = 0;
       firstWord = true;
       continue;

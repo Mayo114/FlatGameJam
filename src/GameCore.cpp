@@ -1,4 +1,5 @@
 #include "GameCore.hh"
+#include <unistd.h>
 #include "BasicExcel.hpp"
 
 GameCore::GameCore() {}
@@ -20,6 +21,7 @@ int GameCore::loadStory(std::string file) {
 }
 
 void GameCore::start() {
+  usleep(300000);
   this->graphics.start();
   if (this->graphics.menu() < 0) return;
   Text* sample = new Text(NULL);

@@ -17,11 +17,12 @@ class GraphicCore {
   GraphicCore();
   ~GraphicCore();
 
+  sf::String wrapText(sf::String, unsigned int, const sf::Font &, unsigned int,
+		      bool);
   void start();
   void loop();
   int menu();
   moduleOutput dispModule(Module<Text> &);
-  sf::String wrapText(sf::String, unsigned, const sf::Font &, unsigned, bool);
 };
 
 #endif /* !GRAPHICCORE_HH */

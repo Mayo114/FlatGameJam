@@ -61,33 +61,49 @@ int GraphicCore::menu() {
   //  s_title.setTextureRect(sf::IntRect(250, 500, 500, 100));
   // setScale: redimentionne l image
   s_background.setScale(
-	this->mode.width / s_background.getLocalBounds().width,
-	this->mode.height / s_background.getLocalBounds().height);
-  s_title.setPosition(sf::Vector2f(((this->mode.width - s_title.getLocalBounds().width) / 2), 120));
+      this->mode.width / s_background.getLocalBounds().width,
+      this->mode.height / s_background.getLocalBounds().height);
+  s_title.setPosition(sf::Vector2f(
+      ((this->mode.width - s_title.getLocalBounds().width) / 2), 120));
 
   s_exit.setScale((0.3), (0.3));
-  s_exit.setPosition(sf::Vector2f(70, (this->mode.height - ((s_play.getLocalBounds().height * 0.3) + 70))));
+  s_exit.setPosition(sf::Vector2f(
+      70, (this->mode.height - ((s_play.getLocalBounds().height * 0.3) + 70))));
 
   s_play.setScale((0.3), (0.3));
-  s_play.setPosition(sf::Vector2f((this->mode.width - ((s_exit.getLocalBounds().width * 0.3) + 70)), (this->mode.height - ((s_exit.getLocalBounds().height * 0.3) + 70))));
+  s_play.setPosition(sf::Vector2f(
+      (this->mode.width - ((s_exit.getLocalBounds().width * 0.3) + 70)),
+      (this->mode.height - ((s_exit.getLocalBounds().height * 0.3) + 70))));
 
   while (this->win->isOpen()) {
     sf::Event event;
-    while (this->win->pollEvent(event))
-      {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
-	    event.type == sf::Event::Closed)
-	  {
-	    this->win->close();
-	    exit(0);
-	  }
-	if (event.type == sf::Event::MouseButtonPressed)
-	  {
-	    //if (s_exit.getGlobalBounds().contains(sf::Mouse::getPosition(this->win)))
-	      std::cout << "clicked" << std::endl;
-	  }
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) return 1;
+    while (this->win->pollEvent(event)) {
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
+	  event.type == sf::Event::Closed) {
+	this->win->close();
+	exit(0);
       }
+      if (event.type == sf::Event::MouseButtonReleased &&
+	  event.mouseButton.button == sf::Mouse::Button::Left) {
+	if (event.mouseButton.x > s_play.getPosition().x &&
+	    event.mouseButton.x <
+		s_play.getPosition().x + 0.3 * s_play.getLocalBounds().width &&
+	    event.mouseButton.y > s_play.getPosition().y &&
+	    event.mouseButton.y <
+		s_play.getPosition().y + 0.3 * s_play.getLocalBounds().height)
+	  return 1;
+	if (event.mouseButton.x > s_exit.getPosition().x &&
+	    event.mouseButton.x <
+		s_exit.getPosition().x + 0.3 * s_exit.getLocalBounds().width &&
+	    event.mouseButton.y > s_exit.getPosition().y &&
+	    event.mouseButton.y <
+		s_exit.getPosition().y + 0.3 * s_exit.getLocalBounds().height) {
+	  this->win->close();
+	  exit(0);
+	}
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) return 1;
+    }
     this->win->clear(sf::Color(0, 0, 0));
     this->win->draw(s_background);
     this->win->draw(s_title);
@@ -127,7 +143,7 @@ sf::Texture* GraphicCore::loadSprite(std::string file) const {
   return (t_image);
 }
 
-GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> & module) {
+GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>& module) {
   std::unique_ptr<sf::Texture> bgTexture(
       this->loadSprite("modules/default.png"));
   std::unique_ptr<sf::Texture> figureTexture(
@@ -154,22 +170,25 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> & module) {
 	this->mode.height - figureSprite.getLocalBounds().height * scale));
   }
 
-  sf::RectangleShape dialogActor(sf::Vector2f(this->mode.width / 12 * 8, this->mode.height / 16 * 5));
-  dialogActor.setPosition(sf::Vector2f(this->mode.height / 16, this->mode.height / 16 * 2));
+  sf::RectangleShape dialogActor(
+      sf::Vector2f(this->mode.width / 12 * 8, this->mode.height / 16 * 5));
+  dialogActor.setPosition(
+      sf::Vector2f(this->mode.height / 16, this->mode.height / 16 * 2));
 
-  sf::RectangleShape dialogPlayer(sf::Vector2f(this->mode.width / 12 * 7, this->mode.height / 16 * 5));
-  dialogPlayer.setPosition(sf::Vector2f(this->mode.height / 16, this->mode.height / 16 * 10));
+  sf::RectangleShape dialogPlayer(
+      sf::Vector2f(this->mode.width / 12 * 7, this->mode.height / 16 * 5));
+  dialogPlayer.setPosition(
+      sf::Vector2f(this->mode.height / 16, this->mode.height / 16 * 10));
 
   EventAction<Text::EventType> ea;
   sf::Text text;
-  sf::String str;
   ea = module.getEvent();
   text.setFont(font);
   text.setString(ea.action);
   text.setCharacterSize(40);
   text.setColor(sf::Color::Black);
-  text.setPosition(this->mode.height / 16 + 60, this->mode.height / 16 * 2 + 40);
-  str = this->wrapText(ea.action, this->mode.width / 12 * 8 - this->mode.height / 16, font, 40, false);
+  text.setPosition(this->mode.height / 16 + 60,
+		   this->mode.height / 16 * 2 + 40);
 
   while (this->win->isOpen()) {
     sf::Event event;
@@ -178,7 +197,7 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> & module) {
     this->win->draw(figureSprite);
     this->win->draw(dialogActor);
     this->win->draw(dialogPlayer);
-    this->win->draw(str);
+    this->win->draw(text);
     this->win->display();
 
     while (this->win->pollEvent(event)) {

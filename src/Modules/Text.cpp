@@ -1,10 +1,10 @@
 #include "Module.hpp"
 
-Text::Text(YExcel::BasicExcelWorksheet* ws)
-    : scenario({{"toto", {{"oui", {{"toto", -1}}}, {"non", {{"toto", 1}}}}}}) {
+Text::Text(YExcel::BasicExcelWorksheet* ws) {
   size_t i = 0;
+  if (!ws) return;
 
-  while (i) {
+  while (++i) {
     YExcel::BasicExcelCell* cell = ws->Cell(i, 0);
 
     if (cell->Type() != YExcel::BasicExcelCell::STRING) break;

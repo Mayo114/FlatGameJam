@@ -14,6 +14,8 @@ struct Results {
 
 template <class EType>
 struct EventAction {
+  std::string actor;
+  std::string actorAsset;
   EType action;
   std::vector<EType> reactions;
 };
@@ -32,6 +34,7 @@ class Module : public IModule {
       : content(contained), background(bg), id(0) {
     results.direction = "Next";
     results.consequences[std::string("toto")] = 18;
+    this->content.setEvents;
   }
   Module(Type contained) : Module(contained, "modules/default.png") {}
   EventAction<typename Type::EventType> const& getEvent() {

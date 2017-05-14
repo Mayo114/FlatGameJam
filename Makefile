@@ -29,7 +29,7 @@ CXXFLAGS         = $(FLAGS) -std=c++0x -O2 -pipe -march=native -I$(INC)
 LCXXFLAGS        = $(CXXFLAGS) -I$(INC)/linux
 WCXXFLAGS        = $(CXXFLAGS) -I$(INC)/windows
 
-LDFLAGS          =
+LDFLAGS          = -lpthread
 LLDFLAGS         = $(LDFLAGS) -lsfml-audio -lsfml-graphics -lsfml-system -lsfml-window -Llib/linux
 WLDFLAGS         = $(LDFLAGS) -lsfml-audio-2 -lsfml-graphics-2 -lsfml-system-2 -lsfml-window-2 -Llib/windows -static-libgcc -static-libstdc++
 

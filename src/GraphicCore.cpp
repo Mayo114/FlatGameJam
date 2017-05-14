@@ -143,6 +143,38 @@ sf::Texture* GraphicCore::loadSprite(std::string file) const {
   return (t_image);
 }
 
+sf::String GraphicCore::wrapText(sf::String string, unsigned width,
+				 const sf::Font& font, unsigned charicterSize,
+				 bool bold = false) {
+  unsigned currentOffset = 0;
+  bool firstWord = true;
+  std::size_t wordBegining = 0;
+
+  for (std::size_t pos(0); pos < string.getSize(); ++pos) {
+    auto currentChar = string[pos];
+    if (currentChar == '\n') {
+      currentOffset = 0;
+      firstWord = true;
+      continue;
+    } else if (currentChar == ' ') {
+      wordBegining = pos;
+      firstWord = false;
+    }
+
+    auto glyph = font.getGlyph(currentChar, charicterSize, bold);
+    currentOffset += glyph.advance;
+
+    if (!firstWord && currentOffset > width) {
+      pos = wordBegining;
+      string[pos] = '\n';
+      firstWord = true;
+      currentOffset = 0;
+    }
+  }
+
+  return string;
+}
+
 GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
   std::unique_ptr<sf::Texture> bgTexture(
       this->loadSprite("modules/default.png"));
@@ -182,7 +214,11 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
 
   EventAction<Text::EventType> ea;
   sf::Text text;
-  ea = module->getEvent();
+  try {
+    ea = module->getEvent();
+  } catch (int err) {
+    return NULL;
+}
   text.setFont(font);
   {
     std::basic_string<sf::Uint32> utf32str;
@@ -204,6 +240,8 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
   int j = 0;
 
   for (auto it = ea.reactions.cbegin(); it != ea.reactions.cend(); ++it) {
+    if (it->size() <= 1)
+      continue;
     choices.push_back(new sf::Text());
 
     choices[j]->setPosition(this->mode.height / 16 + 60,
@@ -260,42 +298,12 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
 	++selected;
       }
       selected %= j;
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+	module->setReact(selected);
       if (event.type == sf::Event::Closed) {
 	this->win->close();
 	return (GraphicCore::moduleOutput)-1;
       }
     }
   }
-}
-
-sf::String GraphicCore::wrapText(sf::String string, unsigned width,
-				 const sf::Font& font, unsigned charicterSize,
-				 bool bold = false) {
-  unsigned currentOffset = 0;
-  bool firstWord = true;
-  std::size_t wordBegining = 0;
-
-  for (std::size_t pos(0); pos < string.getSize(); ++pos) {
-    auto currentChar = string[pos];
-    if (currentChar == '\n') {
-      currentOffset = 0;
-      firstWord = true;
-      continue;
-    } else if (currentChar == ' ') {
-      wordBegining = pos;
-      firstWord = false;
-    }
-
-    auto glyph = font.getGlyph(currentChar, charicterSize, bold);
-    currentOffset += glyph.advance;
-
-    if (!firstWord && currentOffset > width) {
-      pos = wordBegining;
-      string[pos] = '\n';
-      firstWord = true;
-      currentOffset = 0;
-    }
-  }
-
-  return string;
 }

@@ -141,14 +141,22 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> const& module) {
       this->mode.height * 0.7 / figureSprite.getLocalBounds().height,
       this->mode.height * 0.7 / figureSprite.getLocalBounds().height);
   figureSprite.setPosition(sf::Vector2f(
-      ((this->mode.width - figureSprite.getLocalBounds().width - 100)),
+      this->mode.width - figureSprite.getLocalBounds().width - 100,
       this->mode.height - figureSprite.getLocalBounds().height));
+
+  sf::RectangleShape dialogActor(sf::Vector2f(this->mode.width / 12 * 8, this->mode.height / 16 * 5));
+  dialogActor.setPosition(sf::Vector2f(this->mode.height / 16, this->mode.height / 16 * 2));
+
+  sf::RectangleShape dialogPlayer(sf::Vector2f(this->mode.width / 12 * 7, this->mode.height / 16 * 5));
+  dialogPlayer.setPosition(sf::Vector2f(this->mode.height / 16, this->mode.height / 16 * 10));
 
   while (this->win->isOpen()) {
     sf::Event event;
 
     this->win->draw(bgSprite);
     this->win->draw(figureSprite);
+    this->win->draw(dialogActor);
+    this->win->draw(dialogPlayer);
     this->win->display();
     while (this->win->pollEvent(event)) {
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {

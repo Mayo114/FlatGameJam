@@ -73,14 +73,21 @@ int GraphicCore::menu() {
 
   while (this->win->isOpen()) {
     sf::Event event;
-    while (this->win->pollEvent(event)) {
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
-	  event.type == sf::Event::Closed) {
-	this->win->close();
-	exit(0);
+    while (this->win->pollEvent(event))
+      {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
+	    event.type == sf::Event::Closed)
+	  {
+	    this->win->close();
+	    exit(0);
+	  }
+	if (event.type == sf::Event::MouseButtonPressed)
+	  {
+	    //if (s_exit.getGlobalBounds().contains(sf::Mouse::getPosition(this->win)))
+	      std::cout << "clicked" << std::endl;
+	  }
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) return 1;
       }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) return 1;
-    }
     this->win->clear(sf::Color(0, 0, 0));
     this->win->draw(s_background);
     this->win->draw(s_title);

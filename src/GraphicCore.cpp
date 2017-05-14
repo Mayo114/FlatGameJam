@@ -100,7 +100,32 @@ void GraphicCore::loop() {
   }
 }
 
-void		GraphicCore::dispModule(Module<Text> const & module)
-{
-  
+sf::Sprite	GraphicCore::loadSprite(std::string file) const {
+  sf::Texture	t_image;
+  sf::Sprite	s_image;
+
+  if (!t_image.loadFromFile("./assets/modules/" + file))
+  {
+    std::cerr << "Missing asset " << file << std::endl;
+    this->win->close();
+    exit(1);
+  }
+  t_image.setSmooth(True);
+  s_image.setTexture(t_image);
+  return (s_image);
+}
+
+void		GraphicCore::dispModule(Module<Text> const & module) {
+  std::string	text;
+  sf::Sprite	bgSprite = this->loadSprite("default.png");
+
+  this->win->draw(bgSprite);
+  while (this->win->isOpen()) {
+    if ((text = module.getEvent()) != NULL)
+      dispEvent(text);
+    this->win->display();
+  }
+}
+
+void		GraphicCore::dispText(std::string text) {
 }

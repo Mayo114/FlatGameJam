@@ -21,5 +21,9 @@ int GameCore::loadStory(std::string file) {
 
 void GameCore::start() {
   this->graphics.start();
-  this->graphics.menu();
+  if (this->graphics.menu() < 0)
+    return;
+  Text sample(NULL);
+  sample.setDefault();
+  this->graphics.dispModule(Module<Text>(sample));
 }

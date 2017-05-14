@@ -1,0 +1,6 @@
+Elma ; parler ; J'espère que tu ne viens pas les mains vide ! ,Je suis venue avec une modeste rémunération pour apprendre,Apprend moi a marchander ou tu goûteras de ma lame,J'aimerais que tu me montre ton talent
+,Marchand +4 ; Continuer dialogue ligne 5,Marchand +3 Guerrier +1 ; Continuer ligne 5,Marchand +3 Barde +1 ; Continuer ligne 5
+,,,
+,,,
+"Elma, ;parler ; J'accepte de t'aider.",,,
+Fin partie Tuto ; Continuer Module 1,,,

@@ -19,8 +19,7 @@ SRCS             = main.cpp          \
 				   GraphicCore.cpp   \
 				   GameCore.cpp      \
 				   Timeline.cpp      \
-				   Modules/Text.cpp  \
-				   BasicExcel.cpp
+				   Modules/Text.cpp
 
 OBJS             = $(SRCS:.cpp=.o)
 LOBJS            = $(addprefix $(LOBJ_PATH)/,$(OBJS))

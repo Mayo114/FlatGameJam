@@ -1,0 +1,6 @@
+Arnold ; Parler ; Que comptes tu faire après ce qu'il t'est arrivé ?,Je vais tous les massacrer !,Je vais leur montrer qu'ils sont sur la mauvaise voie.,Je vais utiliser le pouvoir de l'argent...
+,Guerrier +5 ; continuer le dialogue ligne 5,Barde +1 ; Module Barde tuto,Marchand +1 ; Module Marchand tuto
+,,,
+,,,
+"Arnold ; Parler ; Très bien, je vais t'initier a la guerre.",,,
+Fin Partie Tuto ; Continuer Module 1,,,

@@ -1,4 +1,5 @@
 #include "GraphicCore.hh"
+#include <unistd.h>
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
 #include <iostream>
@@ -203,26 +204,23 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
   int nbLines = 0;
   int j = 0;
 
-  for (auto it = ea.reactions.cbegin(); it != ea.reactions.cend(); ++it)
-  {
+  for (auto it = ea.reactions.cbegin(); it != ea.reactions.cend(); ++it) {
     choices.push_back(new sf::Text());
 
-    choices[j]->setPosition(this->mode.height / 16 + 60, 
-        this->mode.height / 16 * 10 + 40 + nbLines * 45);
+    choices[j]->setPosition(this->mode.height / 16 + 60,
+			    this->mode.height / 16 * 10 + 40 + nbLines * 45);
     choices[j]->setFont(font);
-    {   
+    {
       std::basic_string<sf::Uint32> utf32str;
-      sf::Utf8::toUtf32(it->begin(), it->end(),
-          std::back_inserter(utf32str));
+      sf::Utf8::toUtf32(it->begin(), it->end(), std::back_inserter(utf32str));
       sf::String sfstr = utf32str;
-      sfstr = GraphicCore::wrapText(sfstr, this->mode.width / 2, font, 33, 
-          false);
+      sfstr =
+	  GraphicCore::wrapText(sfstr, this->mode.width / 2, font, 33, false);
       choices[j]->setString(sfstr);
-	for (int i = 0; i < sfstr.getSize(); ++i) {
-	  if (sfstr[i] == '\n')
-	    ++nbLines;
-	}
-    }   
+      for (int i = 0; i < sfstr.getSize(); ++i) {
+	if (sfstr[i] == '\n') ++nbLines;
+      }
+    }
     choices[j]->setCharacterSize(33);
     choices[j]->setColor(sf::Color::Black);
     ++j;
@@ -232,6 +230,7 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
   while (this->win->isOpen()) {
     sf::Event event;
 
+    usleep(30000);
     this->win->draw(bgSprite);
     this->win->draw(figureSprite);
     this->win->draw(dialogActor);
@@ -239,10 +238,10 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
     this->win->draw(text);
 
     sf::FloatRect backgroundRect = choices[selected]->getLocalBounds();
-    sf::RectangleShape backg(sf::Vector2f(backgroundRect.width + 20, backgroundRect.height + 20));
+    sf::RectangleShape backg(
+	sf::Vector2f(backgroundRect.width + 20, backgroundRect.height + 20));
     backg.setFillColor(sf::Color::Black);
-    for (int i = 0; i < j; ++i)
-      choices[i]->setColor(sf::Color::Black);
+    for (int i = 0; i < j; ++i) choices[i]->setColor(sf::Color::Black);
     choices[selected]->setColor(sf::Color::White);
     this->win->draw(backg, choices[selected]->getTransform());
     for (auto it = choices.cbegin(); it != choices.cend(); ++it)

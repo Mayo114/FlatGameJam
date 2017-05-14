@@ -1,0 +1,10 @@
+Asgeir ; parler ; j'ai entendu dire que tu avais tué Ida ? Ton amie d'enfance ?!,Meurs !!,C'est faux ! Jamais je n'aurais fait ça !,Donne de l'argent ; N'en parlons plus
+,Guerrier +3 ; combat contre Asgeir ; continuer module 5,Barde +4 ; continuer ligne 5,Marchand +3 ; continuer module 6
+,,,
+,,,
+Asgeir ; parler ; Tu ne mens pas ? La rumeur a pourtant l'air vraie !,Tu vas mourir !,Fais moi confiance !,Je peux faire ce que tu veux pour que tu me crois
+,Guerrier +3 ; combat contre Asgeir ; continuer module 5,Barde +4 ; continuer ligne 9,Marchand +2 ; continuer module 6
+,,,
+,,,
+Asgeir ; parler ; Très bien ; je te fais confiance,,,
+continuer module 7,,,

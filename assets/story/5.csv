@@ -1,0 +1,10 @@
+Randi ; parler ; Tiens mais voilà un bondr bien agité !,Que veux-tu dire par là ?,,
+,Continuer ligne 5,,
+,,,
+,,,
+Randi ; parler ; Je vous accuse de meurtre !,Et tu seras la prochaine !,Mais jamais je n'aurais fait ça !,Prend cet argent et oublie cela
+,Guerrier +4 ; combat contre Randi ; fin partie 2 continuer module 9,Barde +2 ; continuer ligne 9,Marchand +2 ; continuer ligne 9
+,,,
+,,,
+Randi ; parler ; Tais toi !!! Tu vas mourir !!,,,
+combat contre randi ; Fin partie 2 continuer module 9,,,

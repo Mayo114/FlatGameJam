@@ -1,0 +1,10 @@
+Ulrika ; parler ; Toi !!! tu oses me faire de l'ombre ! Je t'en empecherai !,Ne me fais pas barrage !! je suis le digne dirigeant !,Je te le demande a genoux ! Rejoins moi et aide moi a diriger les bikinigs ! Je te pormets un bon poste !,Lâche moi ! cette argent devrai te suffire !
+,Guerrier +2 ; combat contre Ulrika ; continuer module 9,Barde +4 ; continuer ligne 5,Marchand +2 ; contiuer ligne 9
+,,,
+,,,
+Ulrika ; parler ; rougis Tu penses vraiment avoir besoin de moi ? O… ok j'accepte de te suivre.,,,
+Continuer module 10,,,
+,,,
+,,,
+Ulrika ; parler ; ton argent ne m'intéresse pas ! Je vais te défoncer !!,,,
+Combat contre Ulrika ; continuer module 5,,,

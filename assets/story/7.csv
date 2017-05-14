@@ -1,0 +1,18 @@
+Ditlinde ; parler ; Que vient faire l'homme le plus détesté de Drifasteinn ici ?,Je viens réparer les erreurs de Unnhrafn.,Je suis sur qu'un homme comme toi acceptera ce modeste présent pour oublier cette rumeur ,
+,Barde +2 ; continuer ligne 5,Marchand +2 ; continuer ligne  17,
+,,,
+,,,
+Ditlinde ; parler ; Commence par t'occuper de tes erreurs ; on verra pour la suite.,Mes erreurs seront pardonnées ! Car je le fait pour le bien de Drifastinn !,Je ne suis pas du genre a faire des erreurs aussi grave !,L'argent peut régler tous les problème. Prend et rejoins moi !
+,Guerrier +1 ; continuer ligne 9,Barde +2 ; continuer ligne 13,"Marchand +3, Continuer ligne 17"
+,,,
+,,,
+Ditlinde ; parler ; Si tels sont tes propos  alors l'accès au valhalla te sera refusé !,c'est ce qu'on verra ! ,,
+,Guerrier +3 ; combat contre Ditlinde ; continuer module 5,,
+,,,
+,,,
+"Ditlinde ; parler ; Tes paroles sont aussi affûté que ta hache, tu dois avoir le potentiel requis.",,,
+Fin partie 2 ; continuer module 10,,,
+,,,
+,,,
+Ditlinde ; parler ; Tes pots de vin n'ont aucun effets sur moi a par montrer la grandeur de tes péchés !,Soit ; qu'il en soit ainsi.,Je laverai mes péchés par ton sang !,
+,Barde +1 ; continuer module 5,Guerrier +3 ; Combat contre Ditlinde continuer module 5,

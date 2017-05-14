@@ -26,7 +26,7 @@ OBJS             = $(SRCS:.cpp=.o)
 LOBJS            = $(addprefix $(LOBJ_PATH)/,$(OBJS))
 WOBJS            = $(addprefix $(WOBJ_PATH)/,$(OBJS))
 
-CXXFLAGS         = -std=c++11 -O2 -pipe -march=native -I$(INC)
+CXXFLAGS         = $(FLAGS) -std=c++0x -O2 -pipe -march=native -I$(INC)
 LCXXFLAGS        = $(CXXFLAGS) -I$(INC)/linux
 WCXXFLAGS        = $(CXXFLAGS) -I$(INC)/windows
 

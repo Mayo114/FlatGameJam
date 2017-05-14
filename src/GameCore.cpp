@@ -25,5 +25,6 @@ void GameCore::start() {
     return;
   Text sample(NULL);
   sample.setDefault();
-  this->graphics.dispModule(Module<Text>(sample));
+  auto sModule = Module<Text>(sample);
+  this->graphics.dispModule(sModule);
 }

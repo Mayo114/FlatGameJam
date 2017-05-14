@@ -120,7 +120,7 @@ sf::Texture* GraphicCore::loadSprite(std::string file) const {
   return (t_image);
 }
 
-GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> const& module) {
+GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> & module) {
   std::unique_ptr<sf::Texture> bgTexture(
       this->loadSprite("modules/default.png"));
   std::unique_ptr<sf::Texture> figureTexture(
@@ -153,6 +153,15 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> const& module) {
   sf::RectangleShape dialogPlayer(sf::Vector2f(this->mode.width / 12 * 7, this->mode.height / 16 * 5));
   dialogPlayer.setPosition(sf::Vector2f(this->mode.height / 16, this->mode.height / 16 * 10));
 
+  EventAction<Text::EventType> ea;
+  sf::Text text;
+  ea = module.getEvent();
+  text.setFont(font);
+  text.setString(ea.action);
+  text.setCharacterSize(40);
+  text.setColor(sf::Color::Black);
+  text.setPosition(this->mode.height / 16 + 60, this->mode.height / 16 * 2 + 40);
+
   while (this->win->isOpen()) {
     sf::Event event;
 
@@ -160,6 +169,7 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text> const& module) {
     this->win->draw(figureSprite);
     this->win->draw(dialogActor);
     this->win->draw(dialogPlayer);
+    this->win->draw(text);
     this->win->display();
 
     while (this->win->pollEvent(event)) {

@@ -13,6 +13,8 @@ void GraphicCore::start() {
   }
   this->win = new sf::RenderWindow(mode, "Skiving",
 				   sf::Style::Fullscreen | sf::Style::Close);
+  this->win->setFramerateLimit(60);
+  this->win->setVerticalSyncEnabled(true);
 }
 
 // void Button::eventMouse(sf::Event * event, sf::RenderWindow * window)

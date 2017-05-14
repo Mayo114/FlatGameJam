@@ -25,10 +25,13 @@ class IModule {
 template <class Type>
 class Module : public IModule {
  public:
-  Module(Type contained) : content(contained) {
+  const std::string background;
+
+  Module(Type contained, std::string bg) : content(contained), background(bg) {
     results.direction = "Next";
     results.consequences[std::string("toto")] = 18;
   }
+  Module(Type contained) : Module(contained, "default") {}
   EventAction<typename Type::EventType> const& getEvent() {}
   void setReact(size_t id) {}
   Results const& getConsequences() const { return results; }

@@ -78,7 +78,8 @@ int GraphicCore::menu() {
   while (this->win->isOpen()) {
     sf::Event event;
     while (this->win->pollEvent(event)) {
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) ||
+      if ((event.type == sf::Event::KeyReleased &&
+	   event.key.code == sf::Keyboard::Escape) ||
 	  event.type == sf::Event::Closed) {
 	this->win->close();
 	exit(0);
@@ -102,7 +103,9 @@ int GraphicCore::menu() {
 	  exit(0);
 	}
       }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) return 1;
+      if (event.type == sf::Event::KeyReleased &&
+	  event.key.code == sf::Keyboard::Return)
+	return 1;
     }
     this->win->clear(sf::Color(0, 0, 0));
     this->win->draw(s_background);
@@ -118,7 +121,9 @@ void GraphicCore::loop() {
   while (this->win->isOpen()) {
     sf::Event event;
     while (this->win->pollEvent(event)) {
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+      if ((event.type == sf::Event::KeyReleased &&
+	   event.key.code == sf::Keyboard::Escape) ||
+	  event.type == sf::Event::Closed) {
 	this->win->close();
 	return;
       }
@@ -218,7 +223,7 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
     ea = module->getEvent();
   } catch (int err) {
     return NULL;
-}
+  }
   text.setFont(font);
   {
     std::basic_string<sf::Uint32> utf32str;
@@ -236,32 +241,33 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
 
   std::vector<sf::Text*> choices;
   unsigned int selected = 0;
-  int nbLines = 0;
   int j = 0;
+  {
+    int nbLines = 0;
 
-  for (auto it = ea.reactions.cbegin(); it != ea.reactions.cend(); ++it) {
-    if (it->size() <= 1)
-      continue;
-    choices.push_back(new sf::Text());
+    for (auto it = ea.reactions.cbegin(); it != ea.reactions.cend(); ++it) {
+      if (it->size() <= 1) continue;
+      choices.push_back(new sf::Text());
 
-    choices[j]->setPosition(this->mode.height / 16 + 60,
-			    this->mode.height / 16 * 10 + 40 + nbLines * 45);
-    choices[j]->setFont(font);
-    {
-      std::basic_string<sf::Uint32> utf32str;
-      sf::Utf8::toUtf32(it->begin(), it->end(), std::back_inserter(utf32str));
-      sf::String sfstr = utf32str;
-      sfstr =
-	  GraphicCore::wrapText(sfstr, this->mode.width / 2, font, 33, false);
-      choices[j]->setString(sfstr);
-      for (int i = 0; i < sfstr.getSize(); ++i) {
-	if (sfstr[i] == '\n') ++nbLines;
+      choices[j]->setPosition(this->mode.height / 16 + 60,
+			      this->mode.height / 16 * 10 + 40 + nbLines * 45);
+      choices[j]->setFont(font);
+      {
+	std::basic_string<sf::Uint32> utf32str;
+	sf::Utf8::toUtf32(it->begin(), it->end(), std::back_inserter(utf32str));
+	sf::String sfstr = utf32str;
+	sfstr =
+	    GraphicCore::wrapText(sfstr, this->mode.width / 2, font, 33, false);
+	choices[j]->setString(sfstr);
+	for (size_t i = 0; i < sfstr.getSize(); ++i) {
+	  if (sfstr[i] == '\n') ++nbLines;
+	}
       }
+      choices[j]->setCharacterSize(33);
+      choices[j]->setColor(sf::Color::Black);
+      ++j;
+      ++nbLines;
     }
-    choices[j]->setCharacterSize(33);
-    choices[j]->setColor(sf::Color::Black);
-    ++j;
-    ++nbLines;
   }
 
   while (this->win->isOpen()) {
@@ -280,77 +286,80 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
     for (int i = 0; i < j; ++i) choices[i]->setColor(sf::Color::Black);
     choices[selected]->setColor(sf::Color::White);
     this->win->draw(backg, choices[selected]->getTransform());
+    std::cout << std::endl;
     for (auto it = choices.cbegin(); it != choices.cend(); ++it)
-      this->win->draw(**it);
+      std::cout << "printing " + (*it)->getString().toAnsiString() << std::endl,
+	  this->win->draw(**it);
     this->win->display();
 
     while (this->win->pollEvent(event)) {
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+      if ((event.type == sf::Event::KeyReleased &&
+	   event.key.code == sf::Keyboard::Escape) ||
+	  event.type == sf::Event::Closed) {
 	return NULL;
       }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+      if (event.type == sf::Event::KeyReleased &&
+	  event.key.code == sf::Keyboard::Up) {
 	if (selected == 0)
 	  selected = j - 1;
 	else
 	  --selected;
       }
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+      if (event.type == sf::Event::KeyReleased &&
+	  event.key.code == sf::Keyboard::Down) {
 	++selected;
       }
       selected %= j;
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
+      if (event.type == sf::Event::KeyReleased &&
+	  event.key.code == sf::Keyboard::Return) {
 	module->setReact(selected);
 	try {
 	  ea = module->getEvent();
 	} catch (int err) {
 	  return NULL;
 	}
-	text.setFont(font);
 	{
 	  std::basic_string<sf::Uint32> utf32str;
 	  sf::Utf8::toUtf32(ea.action.begin(), ea.action.end(),
-	      std::back_inserter(utf32str));
+			    std::back_inserter(utf32str));
 	  sf::String sfstr = utf32str;
-	  sfstr = GraphicCore::wrapText(sfstr, this->mode.width / 12 * 7, font, 33,
-	      false);
+	  sfstr = GraphicCore::wrapText(sfstr, this->mode.width / 12 * 7, font,
+					33, false);
 	  text.setString(sfstr);
 	}
-	text.setCharacterSize(33);
-	text.setColor(sf::Color::Black);
-	text.setPosition(this->mode.height / 16 + 60,
-	    this->mode.height / 16 * 2 + 40);
 
-	std::vector<sf::Text*> choices;
-	unsigned int selected = 0;
 	int nbLines = 0;
-	int j = 0;
+	j = 0;
+	selected = 0;
 
+	choices.resize(0);
 	for (auto it = ea.reactions.cbegin(); it != ea.reactions.cend(); ++it) {
-	  if (it->size() <= 1)
-	    continue;
+	  if (it->size() <= 1) continue;
 	  choices.push_back(new sf::Text());
 
-	  choices[j]->setPosition(this->mode.height / 16 + 60,
+	  choices[j]->setPosition(
+	      this->mode.height / 16 + 60,
 	      this->mode.height / 16 * 10 + 40 + nbLines * 45);
 	  choices[j]->setFont(font);
 	  {
 	    std::basic_string<sf::Uint32> utf32str;
-	    sf::Utf8::toUtf32(it->begin(), it->end(), std::back_inserter(utf32str));
+	    sf::Utf8::toUtf32(it->begin(), it->end(),
+			      std::back_inserter(utf32str));
 	    sf::String sfstr = utf32str;
-	    sfstr =
-	      GraphicCore::wrapText(sfstr, this->mode.width / 2, font, 33, false);
+	    sfstr = GraphicCore::wrapText(sfstr, this->mode.width / 2, font, 33,
+					  false);
 	    choices[j]->setString(sfstr);
-	    for (int i = 0; i < sfstr.getSize(); ++i) {
+	    for (size_t i = 0; i < sfstr.getSize(); ++i) {
 	      if (sfstr[i] == '\n') ++nbLines;
 	    }
+	    std::cout << "toto => " << *it << std::endl;
 	  }
 	  choices[j]->setCharacterSize(33);
 	  choices[j]->setColor(sf::Color::Black);
 	  ++j;
 	  ++nbLines;
 	}
-
-
+	std::cout << choices.size() << std::endl;
       }
       if (event.type == sf::Event::Closed) {
 	this->win->close();

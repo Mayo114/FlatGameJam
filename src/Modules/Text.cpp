@@ -29,15 +29,20 @@ Text::Text(std::string const& file) {
 	while (std::getline(ss, segment, ';')) {
 	  std::stringstream spaces(segment);
 	  std::string key;
-	  int value;
+	  std::string value;
 
 	  spaces >> key;
+	  std::transform(key.begin(), key.end(), key.begin(), ::tolower);
+
 	  spaces >> value;
+	  std::transform(value.begin(), value.end(), value.begin(), ::tolower);
 	  c[key] = value;
 	}
 	ea.cons.push_back(c);
       }
       events.push_back(ea);
+      ea = EventAction<std::string>();
+      reactions.resize(0);
       cons = false;
     } else {
       std::stringstream ss(event);

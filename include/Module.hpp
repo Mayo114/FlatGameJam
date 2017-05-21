@@ -6,11 +6,11 @@
 #include <tuple>
 #include <vector>
 
-using Consequence = std::map<std::string, int>;
+using Consequence = std::map<std::string, std::string>;
 
 struct Results {
   std::string direction;
-  Consequence consequences;
+  std::map<std::string, std::vector<std::string>> consequences;
 };
 
 template <class EType>
@@ -54,16 +54,38 @@ class Module : public IModule {
     if (this->id >= this->content->events.size()) throw(0);
     return this->content->events[id];
   }
-  void setReact(size_t id) { ++this->id; }
-  Results const& getConsequences() const { return results; }
+  void setReact(size_t rid) {
+    Consequence c = this->content->events[this->id].cons[rid];
+
+    for (auto i = c.cbegin(); i != c.cend(); ++i) {
+      this->results[i->first].push_back(i->second);
+    }
+    ++this->id;
+    try {
+      int line = atoi(c.at("ligne").c_str());
+      this->id = 0;
+
+      for (auto i = this->content->events.cbegin();
+	   i < this->content->events.cend(); ++i) {
+	if (i->line == line) break;
+	++this->id;
+      }
+    } catch (std::out_of_range const& e) {
+    }
+
+    try {
+      this->results.direction = c.at("module");
+      this->id = -1;
+    } catch (std::out_of_range const& e) {
+    }
+  }
+  Results const& getConsequences() const { return this->results; }
 
   Type* content;
 
  private:
   Results results;
-  Consequence cnsq;
   size_t id;
-  std::vector<std::string> childs;
 };
 
 /*

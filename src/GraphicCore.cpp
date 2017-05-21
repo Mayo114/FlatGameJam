@@ -286,10 +286,8 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
     for (int i = 0; i < j; ++i) choices[i]->setColor(sf::Color::Black);
     choices[selected]->setColor(sf::Color::White);
     this->win->draw(backg, choices[selected]->getTransform());
-    std::cout << std::endl;
     for (auto it = choices.cbegin(); it != choices.cend(); ++it)
-      std::cout << "printing " + (*it)->getString().toAnsiString() << std::endl,
-	  this->win->draw(**it);
+      this->win->draw(**it);
     this->win->display();
 
     while (this->win->pollEvent(event)) {
@@ -313,11 +311,13 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
       if (event.type == sf::Event::KeyReleased &&
 	  event.key.code == sf::Keyboard::Return) {
 	module->setReact(selected);
+	std::cout << "tol" << std::endl;
 	try {
 	  ea = module->getEvent();
 	} catch (int err) {
 	  return NULL;
 	}
+	std::cout << "total" << std::endl;
 	{
 	  std::basic_string<sf::Uint32> utf32str;
 	  sf::Utf8::toUtf32(ea.action.begin(), ea.action.end(),
@@ -352,14 +352,12 @@ GraphicCore::moduleOutput GraphicCore::dispModule(Module<Text>* module) {
 	    for (size_t i = 0; i < sfstr.getSize(); ++i) {
 	      if (sfstr[i] == '\n') ++nbLines;
 	    }
-	    std::cout << "toto => " << *it << std::endl;
 	  }
 	  choices[j]->setCharacterSize(33);
 	  choices[j]->setColor(sf::Color::Black);
 	  ++j;
 	  ++nbLines;
 	}
-	std::cout << choices.size() << std::endl;
       }
       if (event.type == sf::Event::Closed) {
 	this->win->close();
